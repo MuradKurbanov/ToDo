@@ -1,14 +1,16 @@
 {
-  "name": "todo-list",
+  "name": "todo",
   "version": "1.0.0",
   "main": "index.js",
+  "type": "module",
+  "homepage": "https://MuradKurbanov.github.io/ToDo/",
   "scripts": {
-    "start": "webpack serve --config webpack/webpack.config.dev.js",
-    "build": "webpack --config webpack/webpack.config.prod.js",
-    "lint": "eslint ./src --fix --quiet --config ./.eslintrc.js",
-    "precommit": "lint-staged",
-    "commitlint": "commitlint --edit -- $1",
-    "prepare": "husky install"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist",
+    "lint": "eslint ./src --fix"
   },
   "keywords": [],
   "author": "",
@@ -22,41 +24,17 @@
     "uuid": "^13.0.0"
   },
   "devDependencies": {
-    "@babel/preset-env": "^7.28.3",
-    "@babel/preset-react": "^7.27.1",
-    "@babel/preset-typescript": "^7.27.1",
-    "@svgr/webpack": "^8.1.0",
+    "@eslint-react/eslint-plugin": "^2.2.3",
     "@types/react": "^19.2.2",
     "@types/react-dom": "^19.2.2",
-    "@typescript-eslint/eslint-plugin": "^8.46.1",
-    "@typescript-eslint/parser": "^8.46.1",
-    "babel-loader": "^10.0.0",
-    "css-loader": "^7.1.2",
-    "eslint": "^8.57.0",
+    "@vitejs/plugin-react": "^5.0.4",
     "eslint-config-prettier": "^10.1.8",
-    "eslint-import-resolver-typescript": "^4.4.4",
-    "eslint-plugin-import": "^2.32.0",
-    "eslint-plugin-react": "^7.37.5",
-    "eslint-plugin-react-hooks": "^7.0.0",
-    "eslint-plugin-simple-import-sort": "^12.1.1",
-    "file-loader": "^6.2.0",
-    "husky": "^7.0.4",
-    "lint-staged": "^16.2.4",
+    "eslint-plugin-prettier": "^5.5.4",
+    "gh-pages": "^6.3.0",
     "prettier": "^3.6.2",
     "sass": "^1.93.2",
-    "sass-loader": "^16.0.5",
-    "style-loader": "^4.0.0",
     "typescript": "^5.9.3",
-    "webpack": "^5.102.1",
-    "webpack-cli": "^6.0.1",
-    "webpack-dev-server": "^5.2.2"
-  },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "prettier --write",
-      "eslint --fix --quiet"
-    ],
-    "*.js": "eslint --cache --fix",
-    "*.{css,md}": "prettier --write"
+    "typescript-eslint": "^8.46.2",
+    "vite": "^7.1.11"
   }
 }

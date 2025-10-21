@@ -10,7 +10,7 @@ const initialState: InitialState = {
     tasks: [],
 };
 
-export default createSlice({
+export const mainSlice = createSlice({
     name: 'main',
     initialState,
     reducers: {
@@ -19,3 +19,7 @@ export default createSlice({
         },
     },
 });
+
+export const { setTasks } = mainSlice.actions;
+
+export default mainSlice.reducer;

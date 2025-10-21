@@ -1,24 +1,17 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 
-import EmptyImg from '../assets/empty.svg';
-import { useActions, useSelector } from '../store';
+import EmptyImg from './assets/empty.svg';
+import { useAppSelector, useActions } from './store';
 import styles from './App.module.scss';
-import { AddPopup } from './popups';
-import Task from './task';
-
-const init_tasks = [
-    { id: 1, title: 'Task 1', description: 'description 1', completed: false },
-    { id: 2, title: 'Task 2', description: 'description 2', completed: true },
-    { id: 3, title: 'Task 3', description: 'description 3', completed: false },
-    { id: 4, title: 'Task 4', description: 'description 4', completed: true },
-    { id: 5, title: 'Task 5', description: 'description 5', completed: false },
-];
+import { AddPopup } from './ui/popups';
+import Task from './ui/task';
+import { TaskType } from './types';
 
 const App = () => {
-    const { tasks } = useSelector();
+    const tasks = useAppSelector(({ tasks }) => tasks);
     const { getTasks } = useActions();
-    const [filtered, setFiltered] = useState(init_tasks);
-    const [isOpen, setOpen] = useState(false);
+    const [filtered, setFiltered] = useState<TaskType[]>([]);
+    const [isOpen, setIsOpen] = useState(false);
 
     const handleFilterTasks = (e: ChangeEvent<HTMLInputElement>) => {
         const search = e.target.value.toLowerCase();
@@ -54,14 +47,14 @@ const App = () => {
                         className={styles.icon}
                         xmlns='http://www.w3.org/2000/svg'
                         viewBox='0 0 24 24'
-                        onClick={() => setOpen(true)}>
+                        onClick={() => setIsOpen(true)}>
                         <path d='M0 0h24v24H0V0z' fill='none' />
                         <path d='M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z' />
                     </svg>
                 </div>
             </div>
 
-            {isOpen && <AddPopup onClose={() => setOpen(false)} />}
+            {isOpen && <AddPopup onClose={() => setIsOpen(false)} />}
         </div>
     );
 };

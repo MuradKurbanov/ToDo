@@ -25,7 +25,7 @@ const Task = ({ task }: Props) => {
         <div className={styles.task}>
             <div className={styles.left}>
                 <input name='completed' type='checkbox' checked={task.completed} onChange={handleChange} />
-                <span className={task.completed ? styles.completed : null}>{task.title}</span>
+                <span className={task.completed ? styles.completed : undefined}>{task.title}</span>
             </div>
 
             <div className={styles.right}>

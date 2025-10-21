@@ -12,28 +12,28 @@ interface Props {
 
 export const EditPopup = ({ task, onClose }: Props) => {
     const { editTask } = useActions();
-    const [state, setState] = useState(task);
+    const [value, setValue] = useState(task);
 
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
 
-        setState((prev) => ({ ...prev, [name]: value }));
+        setValue((prev) => ({ ...prev, [name]: value }));
     };
 
     const handleConfirm = () => {
-        editTask(state);
+        editTask(value);
     };
 
     return (
         <Popup title='Edit Task' onClose={onClose} confirm={{ label: 'APPLY', onClick: handleConfirm }}>
             <div className={styles.inputWrapper}>
                 <div className={styles.label}>title</div>
-                <input maxLength={20} type='text' name='title' value={state.title} onChange={handleChange} />
+                <input maxLength={20} type='text' name='title' value={value.title} onChange={handleChange} />
             </div>
 
             <div className={styles.inputWrapper}>
                 <div className={styles.label}>description</div>
-                <textarea maxLength={200} name='description' value={state.description} onChange={handleChange} />
+                <textarea maxLength={200} name='description' value={value.description} onChange={handleChange} />
             </div>
         </Popup>
     );

@@ -1,60 +1,51 @@
 import { TaskType } from '../types';
-import main from './slice';
+import { setTasks } from './slice';
+import { addTasksApi, deleteTaskApi, getTasksApi, updateTaskApi } from './api';
+import { type AppDispatch, RootState } from './store';
 
-const { setTasks } = main.actions;
-
-const getTasks = () => async (dispatch) => {
+const getTasks = () => async (dispatch: AppDispatch) => {
     try {
-        const tasks: TaskType[] = JSON.parse(localStorage.getItem('tasks')) ?? [];
-        dispatch(setTasks(tasks));
+        const { data } = await getTasksApi();
+        dispatch(setTasks(data));
     } catch {
         throw Error('Error ...');
     }
 };
 
-const addTask = (newTask: TaskType) => async (dispatch) => {
+const addTask = (newTask: TaskType) => async (dispatch: AppDispatch) => {
     try {
-        const tasks: TaskType[] = JSON.parse(localStorage.getItem('tasks')) ?? [];
-        const updated = [newTask, ...tasks];
-
-        localStorage.setItem('tasks', JSON.stringify(updated));
-        dispatch(setTasks(updated));
+        const { data } = await addTasksApi(newTask);
+        dispatch(setTasks(data));
     } catch {
         throw Error('Error ...');
     }
 };
 
-const toggleTask = (id: string, completed: boolean) => async (dispatch) => {
-    try {
-        const tasks: TaskType[] = JSON.parse(localStorage.getItem('tasks')) ?? [];
-        const updated = tasks.map((item) => (item.id === id ? { ...item, completed } : item));
+const toggleTask = (id: string, completed: boolean) => async (dispatch: AppDispatch, getState: () => RootState) => {
+    const { tasks } = getState();
+    const task = tasks.find((task) => task.id === id)!;
 
-        localStorage.setItem('tasks', JSON.stringify(updated));
-        dispatch(setTasks(updated));
+    try {
+        const { data } = await updateTaskApi({ ...task, completed });
+        dispatch(setTasks(data));
     } catch {
         throw Error('Error ...');
     }
 };
 
-const editTask = (task: TaskType) => async (dispatch) => {
+const editTask = (task: TaskType) => async (dispatch: AppDispatch) => {
     try {
-        const tasks: TaskType[] = JSON.parse(localStorage.getItem('tasks')) ?? [];
-        const updated = tasks.map((item) => (item.id === task.id ? task : item));
-
-        localStorage.setItem('tasks', JSON.stringify(updated));
-        dispatch(setTasks(updated));
+        const { data } = await updateTaskApi(task);
+        dispatch(setTasks(data));
     } catch {
         throw Error('Error ...');
     }
 };
 
-const deleteTask = (id: string) => async (dispatch) => {
+const deleteTask = (id: string) => async (dispatch: AppDispatch) => {
     try {
-        const tasks: TaskType[] = JSON.parse(localStorage.getItem('tasks')) ?? [];
-        const updated = tasks.filter((item) => item.id !== id);
-
-        localStorage.setItem('tasks', JSON.stringify(updated));
-        dispatch(setTasks(updated));
+        const { data } = await deleteTaskApi(id);
+        dispatch(setTasks(data));
     } catch {
         throw Error('Error ...');
     }

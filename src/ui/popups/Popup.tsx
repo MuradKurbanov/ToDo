@@ -23,7 +23,7 @@ const Popup = ({ title, onClose, confirm, children }: Props) => {
     }
 
     const handleConfirm = () => {
-        confirm.onClick();
+        confirm?.onClick();
         onClose();
     };
 
